@@ -24,10 +24,22 @@
 
     var drawing = false;
   
+    function wrapTouch(fn){
+      return (e)=> {
+        fn(e.touches[0]);
+        e.preventDefault();
+      };
+    }
+
     canvas.addEventListener('mousedown', onMouseDown, false);
     canvas.addEventListener('mouseup', onMouseUp, false);
     canvas.addEventListener('mouseout', onMouseUp, false);
     canvas.addEventListener('mousemove', throttle(onMouseMove, 10), false);
+
+    canvas.addEventListener('touchstart', wrapTouch(onMouseDown), false);
+    canvas.addEventListener('touchend', wrapTouch(onMouseUp), false);
+    canvas.addEventListener('touchcancel', wrapTouch(onMouseUp), false)
+    canvas.addEventListener('touchmove', throttle(wrapTouch(onMouseMove), 10), false);
   
     for (var i = 0; i < colors.length; i++){
       colors[i].addEventListener('click', onColorUpdate, false);

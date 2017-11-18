@@ -6,16 +6,40 @@ class FreeDraw extends Tool {
       y: null
     };
     this.drawing = false;
+    
   }
 
   setColor (color) {
     this.color = color;
   }
 
+  get canvasBounds () {
+    var rect = this.context.canvas.getBoundingClientRect();
+    return {
+      x: rect.left,
+      y: rect.top
+    }
+  }
+
+  shiftX (x) {
+    return x - this.canvasBounds.x;
+  }
+
+  shiftY (y) {
+    return y - this.canvasBounds.y;
+  }
+
+  get shiftCurrent () {
+    return {
+      x: this.shiftX(this.current.x),
+      y: this.shiftY(this.current.y)
+    }
+  }
+
   mouseup (e) {
     if (!this.drawing) { return; }
     this.drawing = false;
-    this.drawLine(this.current.x, this.current.y, e.clientX, e.clientY, this.color, true);
+    this.drawLine(this.shiftCurrent.x, this.shiftCurrent.y, this.shiftX(e.clientX), this.shiftY(e.clientY), this.color, true);
   }
 
   mousedown (e) {
@@ -26,7 +50,7 @@ class FreeDraw extends Tool {
 
   mousemove (e) {
     if (!this.drawing) { return; }
-    this.drawLine(this.current.x, this.current.y, e.clientX, e.clientY, this.color, true);
+    this.drawLine(this.shiftCurrent.x, this.shiftCurrent.y, this.shiftX(e.clientX), this.shiftY(e.clientY), this.color, true);
     this.current.x = e.clientX;
     this.current.y = e.clientY;
   }
