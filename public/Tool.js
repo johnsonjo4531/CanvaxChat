@@ -1,10 +1,11 @@
 class Tool {
-  constructor (context) {
+  constructor (context, socket) {
     this.context = context;
+    this.socket = socket;
   }
 
   mouseup () {
-    
+
   }
 
   mousedown () {
@@ -12,6 +13,14 @@ class Tool {
   }
 
   mousemove () {
+
+  }
+
+  activate () {
+    
+  }
+
+  deactivate () {
 
   }
 }

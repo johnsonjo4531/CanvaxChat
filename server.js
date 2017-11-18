@@ -10,7 +10,8 @@ app.get('/', function (req, res) {
     res.sendFile('index.html', { root: path.join(__dirname, '/views') });
 })
 
-var server = app.listen(8080);
+var port = process.pid || 8080;
+var server = app.listen(port);
 var io = require('socket.io')(server);
 
 io.on('connection', function(socket){
@@ -20,4 +21,5 @@ io.on('connection', function(socket){
 });
 
 
-console.log((new Date()) + ' Server is listening on port 8080');
+console.log(`${new Date()}`);
+console.log(`Server is listening on port ${port}`);
