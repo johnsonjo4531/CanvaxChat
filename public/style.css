@@ -53,4 +53,12 @@
 
 .chat-message-window {
 	flex: 0 0 200px;
+	font-size: 12px;
+	height: 100vh;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.input-group-btn {
+	font-size: 12px;
 }
