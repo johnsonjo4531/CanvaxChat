@@ -5,22 +5,66 @@
     var colors = document.getElementsByClassName('color');
     var context = canvas.getContext('2d');
     var freeDraw = new FreeDraw(context, socket);
-    var tool = freeDraw;
   
     // do not use this variable
-    var current;
+    var state;
     {
       var _color = 'black';
-      current = {
+      var _tool = null;
+      state = {
         get color() {
           return _color;
         },
         set color (val) {
           _color = val;
-          freeDraw.setColor(current.color);
+          freeDraw.setColor(state.color);
+        },
+        get tool () {
+          return _tool;
+        },
+        set tool (value) {
+          if(_tool) {
+            _tool.deactivate();
+          }
+          _tool = value;
+          _tool.activate();
         }
       };
     }
+
+    //state.tool = freeDraw;
+
+    // add commands here the commands should match the data-command attribute of buttons within elements with class button-toggle-tools.
+    var toggleToolCommands = {
+      freeDraw: () => {
+        state.tool = freeDraw;
+      },
+      // this is just an example to show the buttons toggle.
+      null: () => {
+        state.tool = new Tool();
+      }
+    };
+
+    var toggleToolSelector = ".button-toggle-tools button[data-command]";
+    function toggleToolUI (command) {
+      var unselected = "btn-outline-primary";
+      var selected = "btn-primary";
+      var el = $(toggleToolSelector);
+      el.toggleClass(unselected, true).toggleClass(selected, false);
+
+      el.filter(`[data-command="${command}"]`).toggleClass(selected, true).toggleClass(unselected, false);;
+
+      toggleToolCommands[command]();
+    }
+
+    // set default tool
+    toggleToolUI("freeDraw");
+
+    $(toggleToolSelector).click(function (e) {
+      var command = $(this).attr("data-command");
+      toggleToolUI(command);
+    });
+
 
     var drawing = false;
   
@@ -51,19 +95,19 @@
     onResize();
   
     function onMouseDown(e){
-      tool.mousedown(e);
+      state.tool.mousedown(e);
     }
   
     function onMouseUp(e){
-      tool.mouseup(e);
+      state.tool.mouseup(e);
     }
   
     function onMouseMove(e){
-      tool.mousemove(e);
+      state.tool.mousemove(e);
     }
   
     function onColorUpdate(e){
-      current.color = e.target.className.split(' ')[1];
+      state.color = e.target.className.split(' ')[1];
     }
   
     // limit the number of events per second

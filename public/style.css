@@ -10,3 +10,7 @@
 .header-image img {
 	max-width: 100%;
 }
+
+.inline-header {
+	display: inline-block;
+}
