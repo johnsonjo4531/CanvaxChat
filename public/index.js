@@ -1,6 +1,6 @@
 (function() {
-  
-    var socket = io();
+    var roomName = "/" + window.location.href.split("/").slice(-1)[0];
+    var socket = io(roomName);
     var canvas = document.getElementsByClassName('whiteboard')[0];
     var colors = document.getElementsByClassName('color');
     var context = canvas.getContext('2d');
@@ -158,6 +158,8 @@
     }
   
     function onDrawingEvent(data){
+      var w = canvas.width;
+      var h = canvas.height;
       state.drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
     }
   
