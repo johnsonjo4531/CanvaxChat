@@ -34,6 +34,19 @@
           _tool = value;
           _tool.activate();
         },
+        get username () {
+          var user = window.localStorage.getItem("username",user);
+          if(user) {
+            return user;
+          } else {
+            user = prompt("Enter a username");
+            this.username = user;
+            return user;
+          }
+        },
+        set username (user) {
+          window.localStorage.setItem("username",user);
+        },
         get pan () {
           return {
             get x () {
@@ -124,6 +137,10 @@
     }
   
     socket.on('drawing', onDrawingEvent);
+
+    socket.on('chat-message', function (data) {
+      renderPost(data.message, data.user);
+    });
   
     window.addEventListener('resize', onResize, false);
     onResize();
@@ -183,10 +200,38 @@
   
     // make the canvas fill its parent
     function onResize() {
-      canvas.width = window.innerWidth;
+      var width = $(".canvax-chat-canvas").width() - $(".chat-message-window").width();
+      canvas.width = width;
       canvas.height = window.innerHeight;
       state.resetCanvas();
     }
+
+    // this function posts chat messages
+	var sendMessage = function (e) {
+		var message = $("#chat-input").val()
+		$("#chat-input").val("")
+		if (!message) {
+			return;
+		}	
+		renderPost(message, state.username);
+		socket.emit("chat-message",{
+			message,
+			user: state.username
+		});
+	};
+	
+	function renderPost (message, user) {
+		$("#chat-messages").append("<p><span class = 'chat-username'> " + user +" </span>"+ 	message + "</p>")
+	}
+	
+	// send chat posts with the send button
+	$("#send-message-button").click(sendMessage)
+	// send chat posts with enter key
+	$("#chat-input").keypress(function (e) {
+    if (e.which == 13) {
+      sendMessage();
+    }
+  });
   
   })();
 
