@@ -10,4 +10,4 @@ Domain:
 canvaxchat.com
 
 heroku link:
-https://evening-hollows-16951.herokuapp.com/
+http://canvaxchat.herokuapp.com

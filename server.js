@@ -97,6 +97,10 @@ function setNamespace(privacy, id){
             delete positions[socket.number];
             socket.broadcast.emit('mouse disconnect', { id: socket.number });
         });
+
+        socket.on('chat-message', function(msg){
+            socket.broadcast.emit('chat-message', msg);
+        });
   });
   return `${privacy}-${id}`;
 };

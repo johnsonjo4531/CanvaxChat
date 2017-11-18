@@ -25,23 +25,35 @@
       <i class="oi oi-plus"></i> Create a Private Canvax!
     </button>
   </div>
-  <div class="container-fluid body">
-    <!-- Title header -->
-    <div class="button-toggle-tools">
-      <h3 class="inline-header">Tools:</h3>
-      <button class="btn btn-outline-primary" data-command="freeDraw">
-          <i class="oi oi-pencil"></i> Free draw
-      </button>
-      <button class="btn btn-outline-primary" data-command="panTool">
-          <i class="oi oi-move"></i> Move
-      </button>
-    </div>
-    <!-- Main Page content -->
-    <div class="row">
-      <div class="col">
-        <canvas class="whiteboard"></canvas>
-      </div>
-    </div>
+  <div class="container-fluid body canvax-chat-canvas">
+	<div class="canvax-main">
+		<!-- Title header -->
+		<div class="button-toggle-tools">
+		  <h3 class="inline-header">Tools:</h3>
+		  <button class="btn btn-outline-primary" data-command="freeDraw">
+			  <i class="oi oi-pencil"></i> Free draw
+		  </button>
+		  <button class="btn btn-outline-primary" data-command="panTool">
+			  <i class="oi oi-move"></i> Move
+		  </button>
+		</div>
+		<!-- Main Page content -->
+		<div class="row">
+		  <div class="col">
+			<canvas class="whiteboard"></canvas>
+		  </div>
+		</div>
+	</div>
+	<div class="chat-message-window" id="chat-message-window">
+		<div id="chat-messages">
+		</div> 
+	  <div class="input-group">
+		  <input id="chat-input" type="text" class="form-control" placeholder ="message..." aria-label="Search for...">
+		  <span class="input-group-btn">
+			<button id="send-message-button" class="btn btn-outline-primary" type="button">send</button>
+		  </span>
+		</div>
+	  </div>
   </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="Tool.js"></script>

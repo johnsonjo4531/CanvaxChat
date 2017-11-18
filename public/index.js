@@ -203,8 +203,8 @@ var virtualMouse = {
     var cursor = document.getElementById('cursor-' + id);
     if (!cursor) {
       cursor = $(`<svg>
-      <image xlink:href="https://dl.dropboxusercontent.com/u/13823768/tumblr/iconmonstr-time-3-icon.svg" width="96" height="96" src="ppngfallback.png" />
-      </svg>`).find("image")[0];
+      <image class="cursor-${id}-color" xlink:href="https://dl.dropboxusercontent.com/u/13823768/tumblr/iconmonstr-time-3-icon.svg" width="96" height="96" src="ppngfallback.png" />
+      </svg>`);
       cursor.className = 'virtualMouse';
       cursor.id = 'cursor-' + id;
       cursor.style.position = 'absolute';

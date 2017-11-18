@@ -35,10 +35,30 @@
 	display: inline-block;
 }
 
-.cursor {
-  position: absolute;
-  background: black;
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
+.chat-username {
+  font-weight: 700;
+}
+
+.canvax-chat-canvas {
+	display: flex;
+}
+
+.canvax-main {
+	flex: 1 1 auto;
+}
+
+.canvax-main {
+	flex: 2 1 auto;
+}
+
+.chat-message-window {
+	flex: 0 0 200px;
+	font-size: 12px;
+	height: 100vh;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.input-group-btn {
+	font-size: 12px;
 }
