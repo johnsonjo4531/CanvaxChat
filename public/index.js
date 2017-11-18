@@ -4,7 +4,6 @@
     var canvas = document.getElementsByClassName('whiteboard')[0];
     var colors = document.getElementsByClassName('color');
     var context = canvas.getContext('2d');
-    // do not use this variable
     var state = {};
 
     var freeDraw = new FreeDraw(context, state, socket);
@@ -12,6 +11,7 @@
     var canvasHistory = new CanvasHistory();
 
     {
+      // Do not use these variables. 
       var _color = 'black';
       var _tool = null;
       var _panX = 0;
@@ -138,12 +138,30 @@
   
     function onMouseMove(e){
       state.tool.mousemove(e);
+      socket.emit("mouse movement", { pos: { x: e.clientX, y: e.clientY } });
     }
+
+      // initial setup, should only happen once right after socket connection has been established
+    socket.on('mouse setup', function (mouses) {
+      for (var mouse_id in mouses) {
+        virtualMouse.move(mouse_id, mouses.mouse_id);
+      }
+    });
+    
+    // update mouse position
+    socket.on('mouse update', function (mouse) {
+      virtualMouse.move(mouse.id, mouse.pos);
+    });
+    
+    // remove disconnected mouse
+    socket.on('mouse disconnect', function (mouse) {
+      virtualMouse.remove(mouse.id);
+    });
   
     function onColorUpdate(e){
       state.color = e.target.className.split(' ')[1];
     }
-  
+
     // limit the number of events per second
     function throttle(callback, delay) {
       var previousCall = new Date().getTime();
@@ -167,6 +185,7 @@
     function onResize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      state.resetCanvas();
     }
   
   })();
@@ -175,3 +194,28 @@
   {
     window.location = "/create-private-room";
   }
+
+  // virtual mouse module
+var virtualMouse = {
+  // moves a cursor with corresponding id to position pos
+  // if cursor with that id doesn't exist we create one in position pos
+  move: function (id, pos) {
+    var cursor = document.getElementById('cursor-' + id);
+    if (!cursor) {
+      cursor = $(`<svg>
+      <image xlink:href="https://dl.dropboxusercontent.com/u/13823768/tumblr/iconmonstr-time-3-icon.svg" width="96" height="96" src="ppngfallback.png" />
+      </svg>`).find("image")[0];
+      cursor.className = 'virtualMouse';
+      cursor.id = 'cursor-' + id;
+      cursor.style.position = 'absolute';
+      document.body.appendChild(cursor);
+    }
+    cursor.style.left = pos.x + 'px';
+    cursor.style.top = pos.y + 'px';
+  },
+  // remove cursor with corresponding id
+  remove: function (id) {
+    var cursor = document.getElementById('cursor-' + id);
+    cursor.parentNode.removeChild(cursor);
+  }
+}

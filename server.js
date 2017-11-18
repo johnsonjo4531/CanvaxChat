@@ -51,12 +51,14 @@ async function random()
 var port = process.env.PORT || 8080;
 var server = app.listen(port);
 var io = require('socket.io')(server);
+var positions = {}; // holds position of all mouse cursors
+var total = 0;
 
-io.on('connection', function(socket){
-    socket.on('drawing', function(msg){
-        socket.broadcast.emit('drawing', msg);
-    });
-});
+
+// io.on('connection', function(socket){
+// });
+
+
 
 setNamespace("public", 0);
 
@@ -65,14 +67,36 @@ function setNamespace(privacy, id){
     {
         return;
     }
-    
+
     rooms[privacy].add(id);
     var namespace = io.of(`/${privacy}-${id}`);
     namespace.on('connection', function(socket){
         console.log('someone connected');
         socket.on('drawing', function(msg){
             socket.broadcast.emit('drawing', msg);
-    });
+        });
+
+        socket.on('drawing', function(msg){
+            socket.broadcast.emit('drawing', msg);
+        });
+    
+        // assign the socket a numeric id
+        socket.number = ++total; // socket.id used by socket.io, leave it alone
+    
+        // send the positions of everyone else
+        socket.broadcast.emit(positions);
+    
+        // send updated mouse position to everyone else
+        socket.on('mouse movement', function (mouse) {
+            positions[socket.number] = mouse.pos;
+            socket.broadcast.emit('mouse update', { id: socket.number, pos: mouse.pos });
+        });
+    
+        // let everyone else know about the disconnection
+        socket.on('disconnect', function () {
+            delete positions[socket.number];
+            socket.broadcast.emit('mouse disconnect', { id: socket.number });
+        });
   });
   return `${privacy}-${id}`;
 };

@@ -34,3 +34,11 @@
 .inline-header {
 	display: inline-block;
 }
+
+.cursor {
+  position: absolute;
+  background: black;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
