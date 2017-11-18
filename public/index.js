@@ -1,26 +1,104 @@
 (function() {
-  
-    var socket = io();
+    var roomName = "/" + window.location.href.split("/").slice(-1)[0];
+    var socket = io(roomName);
     var canvas = document.getElementsByClassName('whiteboard')[0];
     var colors = document.getElementsByClassName('color');
     var context = canvas.getContext('2d');
-    var freeDraw = new FreeDraw(context, socket);
-    var tool = freeDraw;
-  
     // do not use this variable
-    var current;
+    var state = {};
+
+    var freeDraw = new FreeDraw(context, state, socket);
+    var panTool = new PanTool(context, state, socket);
+    var canvasHistory = new CanvasHistory();
+
     {
       var _color = 'black';
-      current = {
+      var _tool = null;
+      var _panX = 0;
+      var _panY = 0;
+      Object.assign(state, {
         get color() {
           return _color;
         },
         set color (val) {
           _color = val;
-          freeDraw.setColor(current.color);
+          freeDraw.setColor(state.color);
+        },
+        get tool () {
+          return _tool;
+        },
+        set tool (value) {
+          if(_tool) {
+            _tool.deactivate();
+          }
+          _tool = value;
+          _tool.activate();
+        },
+        get pan () {
+          return {
+            get x () {
+              return _panX;
+            },
+            set x (x) {
+              _panX = x;
+            },
+            get y () {
+              return _panY;
+            },
+            set y (y) {
+              _panY = y;
+            }
+          }
+        },
+        drawLine (x0, y0, x1, y1, color, emit) {
+          canvasHistory.add({
+            execute () {
+              freeDraw.drawLine(x0,y0,x1,y1,color,emit);
+            }
+          });
+        },
+        resetCanvas () {
+          var w = canvas.width;
+          var h = canvas.height;
+          context.clearRect(-this.pan.x, -this.pan.y, w,h);
+          canvasHistory.executeAll();
         }
-      };
+      });
     }
+
+    //state.tool = freeDraw;
+
+    // add commands here the commands should match the data-command attribute of buttons within elements with class button-toggle-tools.
+    var toggleToolCommands = {
+      freeDraw: () => {
+        state.tool = freeDraw;
+      },
+      // this is just an example to show the buttons toggle.
+      panTool: () => {
+        state.tool = panTool;
+      }
+    };
+
+    var toggleToolSelector = ".button-toggle-tools button[data-command]";
+    function toggleToolUI (command) {
+      var unselected = "btn-outline-primary";
+      var selected = "btn-primary";
+      var el = $(toggleToolSelector);
+      el.toggleClass(unselected, true).toggleClass(selected, false);
+
+      el.filter(`[data-command="${command}"]`).toggleClass(selected, true).toggleClass(unselected, false);;
+
+      toggleToolCommands[command]();
+    }
+
+    // set default tool
+    toggleToolUI("freeDraw");
+
+    $(toggleToolSelector).click(function (e) {
+      var command = $(this).attr("data-command");
+      toggleToolUI(command);
+    });
+
 
     var drawing = false;
   
@@ -51,19 +129,19 @@
     onResize();
   
     function onMouseDown(e){
-      tool.mousedown(e);
+      state.tool.mousedown(e);
     }
   
     function onMouseUp(e){
-      tool.mouseup(e);
+      state.tool.mouseup(e);
     }
   
     function onMouseMove(e){
-      tool.mousemove(e);
+      state.tool.mousemove(e);
     }
   
     function onColorUpdate(e){
-      current.color = e.target.className.split(' ')[1];
+      state.color = e.target.className.split(' ')[1];
     }
   
     // limit the number of events per second
@@ -82,7 +160,7 @@
     function onDrawingEvent(data){
       var w = canvas.width;
       var h = canvas.height;
-      freeDraw.drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
+      state.drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
     }
   
     // make the canvas fill its parent
@@ -107,5 +185,9 @@
 
   
   })();
-  
-  
+
+  function create_private_room()
+  {
+    window.location = "/create-private-room";
+  }
+

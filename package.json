@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "engines": {
+    "node": "8.9.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnsonjo4531/CanvaxChat.git"
@@ -23,6 +26,7 @@
   "homepage": "https://github.com/johnsonjo4531/CanvaxChat#readme",
   "dependencies": {
     "express": "4.16.2",
+    "infinite-canvas": "^1.0.0",
     "socket.io": "2.0.4"
   }
 }

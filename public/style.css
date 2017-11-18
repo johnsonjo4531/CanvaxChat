@@ -2,6 +2,10 @@
   cursor: crosshair;
 }
 
+.header {
+  border-bottom: 1px solid black;
+}
+
 .header-image {
 	text-align: center;
 	padding-right: 20%;
@@ -10,4 +14,23 @@
 
 .header-image img {
 	max-width: 100%;
+}
+
+.private-channel{
+	padding-top: 10px;
+}
+
+#titleHeader {
+	background-color: #eee;
+	padding-top: 45px;
+	padding-bottom: 45px;
+	border-bottom: 3px solid #83C0FF;
+}
+
+.body {
+	border-top: 1px solid #2360FB;
+}
+
+.inline-header {
+	display: inline-block;
 }
