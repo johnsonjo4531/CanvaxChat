@@ -203,11 +203,13 @@ var virtualMouse = {
     var cursor = document.getElementById('cursor-' + id);
     if (!cursor) {
       cursor = $(`<svg>
-      <image class="cursor-${id}-color" xlink:href="https://dl.dropboxusercontent.com/u/13823768/tumblr/iconmonstr-time-3-icon.svg" width="96" height="96" src="ppngfallback.png" />
-      </svg>`);
+      <image class="cursor-${id}-color" xlink:href="assets/pencil.svg" width="25" height="25" src=auto />
+      </svg>`)[0];
       cursor.className = 'virtualMouse';
       cursor.id = 'cursor-' + id;
       cursor.style.position = 'absolute';
+      cursor.style.fill = getRandomColor();
+      cursor.style.stroke = getRandomColor();
       document.body.appendChild(cursor);
     }
     cursor.style.left = pos.x + 'px';
@@ -218,4 +220,13 @@ var virtualMouse = {
     var cursor = document.getElementById('cursor-' + id);
     cursor.parentNode.removeChild(cursor);
   }
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
