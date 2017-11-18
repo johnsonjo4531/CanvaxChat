@@ -192,8 +192,15 @@
 		$("#chat-messages").append("<p><span class = 'chat-username'> " + state.username +" </span>"+ 	message + "</p>")
 
 	};
-
+	
+	// send chat posts with the send button
 	$("#send-message-button").click(sendMessage)
+	// send chat posts with enter key
+	$("#chat-input").keypress(function (e) {
+    if (e.which == 13) {
+        sendMessage();
+    }
+});
 
 
   
