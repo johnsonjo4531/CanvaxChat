@@ -1,21 +1,24 @@
 #!/usr/bin/env node
 var express = require('express');
-var app = express();
+var app = express(); 
 var path = require("path");
+var rooms = {
+    public: new Set(),
+    private: new Set()
+}
 
 app.use(express.static('public'));
 
 app.get('/', function (req, res) {
-    console.log("Serving views/index.html")
-    res.redirect('/public');
+    res.redirect('/public-0');
 })
 
-app.get('/public', function(req , res){
+app.get('/public-:id', function(req , res){
     console.log("Serving views/index.html")
     res.sendFile('index.html', {root: path.join(__dirname, 'views')});
   });
 
-  app.get('/private', function(req , res){
+app.get('/private-:id', function(req , res){
     console.log("Serving views/index.html")
     res.sendFile('index.html', {root: path.join(__dirname, 'views')});
   });
@@ -30,21 +33,27 @@ io.on('connection', function(socket){
     });
 });
 
-var publicNamespace = io.of("/public");
-publicNamespace.on('connection', function(socket){
-    console.log('someone connected');
-    socket.on('drawing', function(msg){
-        socket.broadcast.emit('drawing', msg);
+setNamespace("public", 0);
+
+function setNamespace(privacy, id){
+    if(rooms[privacy].has(id))
+    {
+        return;
+    }
+    
+    rooms[privacy].add(id);
+    var namespace = io.of(`/${privacy}-${id}`);
+    namespace.on('connection', function(socket){
+        console.log('someone connected');
+        socket.on('drawing', function(msg){
+            socket.broadcast.emit('drawing', msg);
     });
   });
+};
 
-var privateNamespace = io.of("/private");
-privateNamespace.on('connection', function(socket){
-    console.log('someone connected');
-    socket.on('drawing', function(msg){
-        socket.broadcast.emit('drawing', msg);
-    });
-});
+var setPublicNamespace = (id)=>setNamespace("private", id);
+
+var setPrivateNamespace = (id)=>setNamespace("public", id);
 
 console.log(`${new Date()}`);
 console.log(`Server is listening on port ${port}`);
