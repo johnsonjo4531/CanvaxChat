@@ -6,9 +6,54 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <title>CanvaxChat</title>
 </head>
 <body>
-  <canvas class="whiteboard"></canvas>
+  <div class="container-fluid">
+    <!-- Title header -->
+    <div class="row" id="titleHeader">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <div class="jumbotron">
+              <h1> CanvaxChat</h1>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul class="nav justify-content-left">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mode</a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Free</a>
+                  <a class="dropdown-item" href="#">Chat</a>
+                  <a class="dropdown-item" href="#">Join a room</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Login</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main Page content -->
+    <div class="row">
+      <div class="col">
+        <canvas class="whiteboard"></canvas>
+      </div>
+    </div>
+
+  </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="index.js"></script>
 </body>
