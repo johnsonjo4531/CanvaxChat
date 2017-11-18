@@ -16,6 +16,17 @@
 	max-width: 100%;
 }
 
+#titleHeader {
+	background-color: #eee;
+	padding-top: 45px;
+	padding-bottom: 45px;
+	border-bottom: 3px solid #83C0FF;
+}
+
+.body {
+	border-top: 1px solid #2360FB;
+}
+
 .inline-header {
 	display: inline-block;
 }
