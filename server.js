@@ -10,7 +10,7 @@ app.get('/', function (req, res) {
     res.sendFile('index.html', { root: path.join(__dirname, '/views') });
 })
 
-var port = process.pid || 8080;
+var port = process.env.PORT || 8080;
 var server = app.listen(port);
 var io = require('socket.io')(server);
 
