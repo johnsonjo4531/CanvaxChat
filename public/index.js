@@ -136,6 +136,9 @@
     }
   
     socket.on('drawing', onDrawingEvent);
+	socket.on('chat-message', function (data) {
+		renderPost(data.message, data.user);
+	});
   
     window.addEventListener('resize', onResize, false);
     onResize();
@@ -189,9 +192,16 @@
 		if (!message) {
 			return;
 		}	
-		$("#chat-messages").append("<p><span class = 'chat-username'> " + state.username +" </span>"+ 	message + "</p>")
-
+		renderPost(message, state.username);
+		socket.emit("chat-message",{
+			message,
+			user: state.username
+		});
 	};
+	
+	function renderPost (message, user) {
+		$("#chat-messages").append("<p><span class = 'chat-username'> " + user +" </span>"+ 	message + "</p>")
+	}
 	
 	// send chat posts with the send button
 	$("#send-message-button").click(sendMessage)

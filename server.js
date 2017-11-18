@@ -71,9 +71,14 @@ function setNamespace(privacy, id){
     namespace.on('connection', function(socket){
         console.log('someone connected');
         socket.on('drawing', function(msg){
-            socket.broadcast.emit('drawing', msg);
-    });
-  });
+			socket.broadcast.emit('drawing', msg);
+		});
+		
+		socket.on('chat-message', function(msg){
+				socket.broadcast.emit('chat-message', msg);
+		});
+		
+	  });
   return `${privacy}-${id}`;
 };
 
