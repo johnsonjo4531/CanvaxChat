@@ -29,9 +29,8 @@ class PanTool extends Tool {
     pan(x0, y0, x1, y1){
         if(!this.panning) {return;}
 
-        this.context.save();
         this.context.translate(x1 - x0, y1 - y0);
-        this.context.restore();
+
     }
 
     mouseup(e)
