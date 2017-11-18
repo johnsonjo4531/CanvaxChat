@@ -17,7 +17,7 @@ class PanTool extends Tool {
 
     mousemove (e) {
         if (!this.panning) { return; }
-        if(this.lastUpdate && this.lastUpdate >= Date.now() - 100) {return;}
+        if(this.lastUpdate && this.lastUpdate >= Date.now() - 10) {return;}
 
         this.lastUpdate = Date.now();
 
@@ -29,9 +29,12 @@ class PanTool extends Tool {
     pan(x0, y0, x1, y1){
         if(!this.panning) {return;}
 
-        this.context.save();
-        this.context.translate(x1 - x0, y1 - y0);
-        this.context.restore();
+        var panX = x1 - x0;
+        var panY = y1 - y0;
+        this.state.pan.x += panX;
+        this.state.pan.y += panY;
+        this.context.translate(panX, panY);
+        this.state.resetCanvas();
     }
 
     mouseup(e)

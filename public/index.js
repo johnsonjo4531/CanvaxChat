@@ -4,15 +4,19 @@
     var canvas = document.getElementsByClassName('whiteboard')[0];
     var colors = document.getElementsByClassName('color');
     var context = canvas.getContext('2d');
-    var freeDraw = new FreeDraw(context, socket);
-    var panTool = new PanTool(context, socket);
-
     // do not use this variable
-    var state;
+    var state = {};
+
+    var freeDraw = new FreeDraw(context, state, socket);
+    var panTool = new PanTool(context, state, socket);
+    var canvasHistory = new CanvasHistory();
+
     {
       var _color = 'black';
       var _tool = null;
-      state = {
+      var _panX = 0;
+      var _panY = 0;
+      Object.assign(state, {
         get color() {
           return _color;
         },
@@ -29,8 +33,37 @@
           }
           _tool = value;
           _tool.activate();
+        },
+        get pan () {
+          return {
+            get x () {
+              return _panX;
+            },
+            set x (x) {
+              _panX = x;
+            },
+            get y () {
+              return _panY;
+            },
+            set y (y) {
+              _panY = y;
+            }
+          }
+        },
+        drawLine (x0, y0, x1, y1, color, emit) {
+          canvasHistory.add({
+            execute () {
+              freeDraw.drawLine(x0,y0,x1,y1,color,emit);
+            }
+          });
+        },
+        resetCanvas () {
+          var w = canvas.width;
+          var h = canvas.height;
+          context.clearRect(-this.pan.x, -this.pan.y, w,h);
+          canvasHistory.executeAll();
         }
-      };
+      });
     }
 
     //state.tool = freeDraw;
@@ -125,9 +158,7 @@
     }
   
     function onDrawingEvent(data){
-      var w = canvas.width;
-      var h = canvas.height;
-      freeDraw.drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
+      state.drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
     }
   
     // make the canvas fill its parent

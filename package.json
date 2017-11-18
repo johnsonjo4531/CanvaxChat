@@ -10,7 +10,6 @@
   "engines": {
     "node": "8.9.0"
   },
-  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnsonjo4531/CanvaxChat.git"

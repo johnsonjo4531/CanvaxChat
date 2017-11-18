@@ -1,7 +1,8 @@
 class Tool {
-  constructor (context, socket) {
+  constructor (context, state, socket) {
     this.context = context;
     this.socket = socket;
+    this.state = state;
     this.current = {
       x: null,
       y: null
@@ -37,11 +38,11 @@ class Tool {
     }
 
     shiftX (x) {
-        return x - this.canvasBounds.x;
+        return x - this.canvasBounds.x - this.state.pan.x;
     }
 
     shiftY (y) {
-        return y - this.canvasBounds.y;
+        return y - this.canvasBounds.y - this.state.pan.y;
     }
 
     get shiftCurrent () {
