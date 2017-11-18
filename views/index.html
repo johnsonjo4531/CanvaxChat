@@ -29,7 +29,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <ul class="nav justify-content-left">
+            <ul class="nav justify-content-left header">
               <li class="nav-item">
                 <a class="nav-link active" href="#">Home</a>
               </li>
@@ -54,21 +54,24 @@
       <button class="btn btn-outline-primary" data-command="freeDraw">
           <i class="oi oi-pencil"></i> Free draw
       </button>
-      <button class="btn btn-outline-primary" data-command="null">
-          <i class="oi oi-move"></i> nothing
+      <button class="btn btn-outline-primary" data-command="panTool">
+          <i class="oi oi-move"></i> Move
       </button>
     </div>
     <!-- Main Page content -->
     <div class="row">
       <div class="col">
-        <canvas class="whiteboard"></canvas>
+        <canvas class="whiteboard" width="200" height="150"></canvas>
+        <span>
+            <input type="range" min="250" max="5000000" steps="250" value="5000" id="range" />
+        </span>
       </div>
     </div>
-
   </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="Tool.js"></script>
   <script src="FreeDraw.js"></script>
+  <script src="PanTool.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

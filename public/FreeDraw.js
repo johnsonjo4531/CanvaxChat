@@ -1,39 +1,12 @@
 class FreeDraw extends Tool {
   constructor (...args) {
     super(...args);
-    this.current = {
-      x: null,
-      y: null
-    };
     this.drawing = false;
     
   }
 
   setColor (color) {
     this.color = color;
-  }
-
-  get canvasBounds () {
-    var rect = this.context.canvas.getBoundingClientRect();
-    return {
-      x: rect.left,
-      y: rect.top
-    }
-  }
-
-  shiftX (x) {
-    return x - this.canvasBounds.x;
-  }
-
-  shiftY (y) {
-    return y - this.canvasBounds.y;
-  }
-
-  get shiftCurrent () {
-    return {
-      x: this.shiftX(this.current.x),
-      y: this.shiftY(this.current.y)
-    }
   }
 
   mouseup (e) {

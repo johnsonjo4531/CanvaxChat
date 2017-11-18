@@ -5,7 +5,8 @@
     var colors = document.getElementsByClassName('color');
     var context = canvas.getContext('2d');
     var freeDraw = new FreeDraw(context, socket);
-  
+    var panTool = new PanTool(context, socket);
+
     // do not use this variable
     var state;
     {
@@ -40,8 +41,8 @@
         state.tool = freeDraw;
       },
       // this is just an example to show the buttons toggle.
-      null: () => {
-        state.tool = new Tool();
+      panTool: () => {
+        state.tool = panTool;
       }
     };
 
