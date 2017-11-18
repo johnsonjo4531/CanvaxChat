@@ -170,3 +170,8 @@
     }
   
   })();
+
+  function create_private_room()
+  {
+    window.location = "/create-private-room";
+  }

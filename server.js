@@ -23,6 +23,31 @@ app.get('/private-:id', function(req , res){
     res.sendFile('index.html', {root: path.join(__dirname, 'views')});
   });
 
+app.get('/create-private-room', async function(req, res){
+    var url = setNamespace('private', await getNewRoomNumber());
+    res.redirect('/'+url);
+});
+
+async function getNewRoomNumber()
+{
+    var token = await random();
+    while(rooms['private'].has(token))
+    {
+       token = await random();
+    }
+
+    return token;
+}
+
+async function random()
+{
+    return new Promise(res => {
+        require('crypto').randomBytes(24, function(err, buffer){
+            res(buffer.toString('hex'))
+        });
+    });
+}
+
 var port = process.env.PORT || 8080;
 var server = app.listen(port);
 var io = require('socket.io')(server);
@@ -49,6 +74,7 @@ function setNamespace(privacy, id){
             socket.broadcast.emit('drawing', msg);
     });
   });
+  return `${privacy}-${id}`;
 };
 
 var setPublicNamespace = (id)=>setNamespace("private", id);
