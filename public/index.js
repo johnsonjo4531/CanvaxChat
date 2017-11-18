@@ -90,5 +90,22 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
+	
+	// this function posts chat messages
+	var sendMessage = function (e) {
+		var message = $("#chat-input").val()
+		$("#chat-input").val("")
+		if (!message) {
+			return;
+		}	
+		$("#chat-messages").append("<p><span class = 'chat-username'> username: </span>"+ 	message + "</p>")
+
+	};
+
+	$("#send-message-button").click(sendMessage)
+
+
   
   })();
+  
+  
