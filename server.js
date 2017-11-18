@@ -30,5 +30,21 @@ io.on('connection', function(socket){
     });
 });
 
+var publicNamespace = io.of("/public");
+publicNamespace.on('connection', function(socket){
+    console.log('someone connected');
+    socket.on('drawing', function(msg){
+        socket.broadcast.emit('drawing', msg);
+    });
+  });
+
+var privateNamespace = io.of("/private");
+privateNamespace.on('connection', function(socket){
+    console.log('someone connected');
+    socket.on('drawing', function(msg){
+        socket.broadcast.emit('drawing', msg);
+    });
+});
+
 console.log(`${new Date()}`);
 console.log(`Server is listening on port ${port}`);
