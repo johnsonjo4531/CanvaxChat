@@ -5,17 +5,17 @@ var path = require("path");
 
 app.use(express.static('public'));
 
-// app.get('/', function (req, res) {
-//     console.log("Serving views/index.html")
-//     res.sendFile('index.html', { root: path.join(__dirname, '/public') });
-// })
+app.get('/', function (req, res) {
+    console.log("Serving views/index.html")
+    res.sendFile('index.html', { root: path.join(__dirname, '/views') });
+})
 
 var server = app.listen(8080);
 var io = require('socket.io')(server);
 
 io.on('connection', function(socket){
-    socket.on('video stream send', function(msg){
-        socket.emit('video stream receive', msg);
+    socket.on('drawing', function(msg){
+        socket.broadcast.emit('drawing', msg);
     });
 });
 
