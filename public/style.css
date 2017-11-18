@@ -34,3 +34,23 @@
 .inline-header {
 	display: inline-block;
 }
+
+.chat-username {
+  font-weight: 700;
+}
+
+.canvax-chat-canvas {
+	display: flex;
+}
+
+.canvax-main {
+	flex: 1 1 auto;
+}
+
+.canvax-main {
+	flex: 2 1 auto;
+}
+
+.chat-message-window {
+	flex: 0 0 200px;
+}

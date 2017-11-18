@@ -50,6 +50,18 @@
             }
           }
         },
+		get username () {
+			var user = window.localStorage.getItem("username",user);
+			if(user) {
+				return user;
+			} else {
+				user = prompt("Enter a username");
+				this.username = user;
+			}
+		},
+		set username (user) {
+			window.localStorage.setItem("username",user);
+		},
         drawLine (x0, y0, x1, y1, color, emit) {
           canvasHistory.add({
             execute () {
@@ -165,7 +177,8 @@
   
     // make the canvas fill its parent
     function onResize() {
-      canvas.width = window.innerWidth;
+	  var width = $(".canvax-chat-canvas").width() - $(".chat-message-window").width();
+      canvas.width = width;
       canvas.height = window.innerHeight;
     }
 	
@@ -176,7 +189,7 @@
 		if (!message) {
 			return;
 		}	
-		$("#chat-messages").append("<p><span class = 'chat-username'> username: </span>"+ 	message + "</p>")
+		$("#chat-messages").append("<p><span class = 'chat-username'> " + state.username +" </span>"+ 	message + "</p>")
 
 	};
 
