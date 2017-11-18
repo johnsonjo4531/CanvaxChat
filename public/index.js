@@ -247,7 +247,7 @@ var virtualMouse = {
   move: function (id, pos) {
     var cursor = document.getElementById('cursor-' + id);
     if (!cursor) {
-      cursor = $(`<svg>
+      cursor = $(`<svg width="25" height="25">
       <image class="cursor-${id}-color" xlink:href="assets/pencil.svg" width="25" height="25" src=auto />
       </svg>`)[0];
       cursor.className = 'virtualMouse';
