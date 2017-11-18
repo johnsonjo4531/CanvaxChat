@@ -1,0 +1,28 @@
+{
+  "name": "canvaxchat",
+  "version": "1.0.0",
+  "description": "canvax chat",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnsonjo4531/CanvaxChat.git"
+  },
+  "keywords": [
+    "canvas",
+    "chat"
+  ],
+  "author": "John D. Johnson II <johnsonjo4531@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johnsonjo4531/CanvaxChat/issues"
+  },
+  "homepage": "https://github.com/johnsonjo4531/CanvaxChat#readme",
+  "dependencies": {
+    "express": "4.16.2",
+    "socket.io": "2.0.4"
+  }
+}
