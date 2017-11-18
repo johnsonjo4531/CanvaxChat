@@ -16,6 +16,10 @@
 	max-width: 100%;
 }
 
+.private-channel{
+	padding-top: 10px;
+}
+
 #titleHeader {
 	background-color: #eee;
 	padding-top: 45px;
