@@ -134,12 +134,12 @@
     canvas.addEventListener('mousedown', onMouseDown, false);
     canvas.addEventListener('mouseup', onMouseUp, false);
     canvas.addEventListener('mouseout', onMouseUp, false);
-    canvas.addEventListener('mousemove', throttle(onMouseMove, 10), false);
+    canvas.addEventListener('mousemove', throttle(onMouseMove, 20), false);
 
     canvas.addEventListener('touchstart', wrapTouch(onMouseDown), false);
     canvas.addEventListener('touchend', wrapTouch(onMouseUp), false);
     canvas.addEventListener('touchcancel', wrapTouch(onMouseUp), false)
-    canvas.addEventListener('touchmove', throttle(wrapTouch(onMouseMove), 10), false);
+    canvas.addEventListener('touchmove', throttle(wrapTouch(onMouseMove), 20), false);
   
     socket.on('drawing', onDrawingEvent);
 

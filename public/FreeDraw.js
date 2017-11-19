@@ -42,6 +42,7 @@ class FreeDraw extends Tool {
       y0: y0 / h,
       x1: x1 / w,
       y1: y1 / h,
+      lineWidth: lineWidth,
       color: color
     });
   }
