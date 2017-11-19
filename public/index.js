@@ -8,7 +8,6 @@
 
     var freeDraw = new FreeDraw(context, state, socket);
     var panTool = new PanTool(context, state, socket);
-    var changeName = new ChangeName(context, state, socket);
     var canvasHistory = new CanvasHistory();
 
     {
@@ -23,7 +22,7 @@
         },
         set color (val) {
           _color = val;
-          freeDraw.setColor(state.color);
+          //freeDraw.setColor(state.color);
         },
         get tool () {
           return _tool;
@@ -132,10 +131,10 @@
     canvas.addEventListener('touchend', wrapTouch(onMouseUp), false);
     canvas.addEventListener('touchcancel', wrapTouch(onMouseUp), false)
     canvas.addEventListener('touchmove', throttle(wrapTouch(onMouseMove), 10), false);
-  
-    for (var i = 0; i < colors.length; i++){
-      colors[i].addEventListener('click', onColorUpdate, false);
-    }
+
+    $("#changeName").click(function(e){
+      state.username = prompt("Enter a new username");
+    });
   
     socket.on('drawing', onDrawingEvent);
 
@@ -176,8 +175,10 @@
       virtualMouse.remove(mouse.id);
     });
   
+    var colorPicker = document.getElementById("colorPicker");
+    colorPicker.addEventListener('input', onColorUpdate, false);
     function onColorUpdate(e){
-      state.color = e.target.className.split(' ')[1];
+      state.color = $(this).val();
     }
 
     // limit the number of events per second
@@ -248,14 +249,21 @@ var virtualMouse = {
   move: function (id, pos) {
     var cursor = document.getElementById('cursor-' + id);
     if (!cursor) {
-      cursor = $(`<svg width="25" height="25">
+      $cursor = $(`<svg width = "25" height="25">
       <image class="cursor-${id}-color" xlink:href="assets/pencil.svg" width="25" height="25" src=auto />
-      </svg>`)[0];
-      cursor.className = 'virtualMouse';
-      cursor.id = 'cursor-' + id;
-      cursor.style.position = 'absolute';
-      cursor.style.fill = getRandomColor();
-      cursor.style.stroke = getRandomColor();
+      </svg>`);
+      $cursor.attr('id', 'cursor-' + id);
+      $cursor.css({
+        position: "absolute",
+        fill: getRandomColor()
+      })
+      $cursor.addClass("virtualMouse");
+      cursor = $cursor[0];
+      // cursor.className = 'virtualMouse';
+      // cursor.id = 'cursor-' + id;
+      // cursor.style.position = 'absolute';
+      // $cursor.find("image")[0].style.fill = 'blue';
+      //cursor.style.stroke = getRandomColor();
       document.body.appendChild(cursor);
     }
     cursor.style.left = pos.x + 'px';

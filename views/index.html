@@ -24,6 +24,9 @@
     </div>
   </div>
   <div class="float-right private-channel">
+      <button class="btn btn-outline-secondary" id="changeName">
+          <i class="oi oi-cog"></i> Change Name
+        </button>
     <button class="btn btn-secondary" onclick="create_private_room()">
       <i class="oi oi-plus"></i> Create a Private Canvax!
     </button>
@@ -39,9 +42,7 @@
 		  <button class="btn btn-outline-primary" data-command="panTool">
 			  <i class="oi oi-move"></i> Move
       </button>
-      <button class="btn btn-outline-secondary" data-command="changeName">
-			  <i class="oi oi-move"></i> Change Name
-		  </button>
+      <input id="colorPicker" type="color">
 		</div>
 		<!-- Main Page content -->
 		<div class="row">
@@ -52,7 +53,7 @@
 	</div>
 	<div class="chat-message-window" id="chat-message-window">
 		<div id="chat-messages">
-		</div> 
+		</div>
 	  <div class="input-group">
 		  <input id="chat-input" type="text" class="form-control" placeholder ="message..." aria-label="Search for...">
 		  <span class="input-group-btn">
