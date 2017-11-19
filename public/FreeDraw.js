@@ -8,7 +8,7 @@ class FreeDraw extends Tool {
   mouseup (e) {
     if (!this.drawing) { return; }
     this.drawing = false;
-    this.state.drawLine(this.shiftCurrent.x, this.shiftCurrent.y, this.shiftX(e.clientX), this.shiftY(e.clientY), this.state.color, true);
+    this.state.drawLine(this.shiftCurrent.x, this.shiftCurrent.y, this.shiftX(e.clientX), this.shiftY(e.clientY), this.state.color, this.state.lineWidth, true);
   }
 
   mousedown (e) {
@@ -19,17 +19,17 @@ class FreeDraw extends Tool {
 
   mousemove (e) {
     if (!this.drawing) { return; }
-    this.state.drawLine(this.shiftCurrent.x, this.shiftCurrent.y, this.shiftX(e.clientX), this.shiftY(e.clientY), this.state.color, true);
+    this.state.drawLine(this.shiftCurrent.x, this.shiftCurrent.y, this.shiftX(e.clientX), this.shiftY(e.clientY), this.state.color, this.state.lineWidth, true);
     this.current.x = e.clientX;
     this.current.y = e.clientY;
   }
 
-  drawLine(x0, y0, x1, y1, color, emit) {
+  drawLine(x0, y0, x1, y1, color, lineWidth, emit) {
     this.context.beginPath();
     this.context.moveTo(x0, y0);
     this.context.lineTo(x1, y1);
     this.context.strokeStyle = color;
-    this.context.lineWidth = 2;
+    this.context.lineWidth = lineWidth;
     this.context.stroke();
     this.context.closePath();
 

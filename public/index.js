@@ -16,6 +16,7 @@
       var _tool = null;
       var _panX = 0;
       var _panY = 0;
+      var _lineWidth = 2;
       Object.assign(state, {
         get color() {
           return _color;
@@ -63,10 +64,18 @@
             }
           }
         },
-        drawLine (x0, y0, x1, y1, color, emit) {
+        get lineWidth () {
+          return _lineWidth;
+        },
+        set lineWidth(value)
+        {
+          _lineWidth = value;
+        },
+
+        drawLine (x0, y0, x1, y1, color, lineWidth, emit) {
           canvasHistory.add({
             execute (dontEmit) {
-              freeDraw.drawLine(x0,y0,x1,y1,color, dontEmit ? false : emit);
+              freeDraw.drawLine(x0,y0,x1,y1,color, lineWidth, dontEmit ? false : emit);
             }
           });
         },
@@ -181,6 +190,12 @@
       state.color = $(this).val();
     }
 
+    var lineWidthPicker = document.getElementById("lineWidthPicker");
+    lineWidthPicker.addEventListener('input', onLineWidthUpdate, false);
+    function onLineWidthUpdate(e){
+      state.lineWidth = $(this).val();
+    }
+
     // limit the number of events per second
     function throttle(callback, delay) {
       var previousCall = new Date().getTime();
@@ -197,7 +212,7 @@
     function onDrawingEvent(data){
       var w = canvas.width;
       var h = canvas.height;
-      state.drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
+      state.drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color, data.lineWidth);
     }
   
     // make the canvas fill its parent
