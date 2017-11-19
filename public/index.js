@@ -8,6 +8,7 @@
 
     var freeDraw = new FreeDraw(context, state, socket);
     var panTool = new PanTool(context, state, socket);
+    var changeName = new ChangeName(context, state, socket);
     var canvasHistory = new CanvasHistory();
 
     {
