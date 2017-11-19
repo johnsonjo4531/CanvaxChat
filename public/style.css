@@ -16,6 +16,10 @@
 	max-width: 100%;
 }
 
+[id^="cursor"] {
+	pointer-events: none;
+}
+
 .private-channel{
 	padding-top: 10px;
 }

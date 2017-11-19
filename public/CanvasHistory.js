@@ -11,7 +11,7 @@ class CanvasHistory {
 
   executeAll() {
     for(var command of this.commands) {
-      command.execute();
+      command.execute(true);
     }
   }
 }

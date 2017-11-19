@@ -65,8 +65,8 @@
         },
         drawLine (x0, y0, x1, y1, color, emit) {
           canvasHistory.add({
-            execute () {
-              freeDraw.drawLine(x0,y0,x1,y1,color,emit);
+            execute (dontEmit) {
+              freeDraw.drawLine(x0,y0,x1,y1,color, dontEmit ? false : emit);
             }
           });
         },
