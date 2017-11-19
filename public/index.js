@@ -140,6 +140,10 @@
     canvas.addEventListener('touchend', wrapTouch(onMouseUp), false);
     canvas.addEventListener('touchcancel', wrapTouch(onMouseUp), false)
     canvas.addEventListener('touchmove', throttle(wrapTouch(onMouseMove), 20), false);
+
+    $("#changeName").click(function(e){
+      state.username = prompt("Enter a new username");
+    });
   
     socket.on('drawing', onDrawingEvent);
 
